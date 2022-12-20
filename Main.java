@@ -235,7 +235,7 @@ public class Main{
 
 // NEXT SMALLER TO RIGHT
 
-import java.util.*;
+/*import java.util.*;
 
 public class Main{
 
@@ -274,9 +274,52 @@ public class Main{
             System.out.print(ns[i]+" ");
         }
     }
+}*/
+
+//-------------------------------------------------------------------------------------------------------
+
+// STOCK SPAN
+
+import java.util.*;
+
+public class Main{
+
+    public static int[] stockSpan(Stack<Integer> st,int[] arr){
+        int n=arr.length;
+        int[] ans=new int[n];
+        ans[0]=1;
+        st.push(0);
+
+        for(int i=1;i<n;i++){
+            while(st.size()!=0 && arr[i]>arr[st.peek()]){
+                st.pop();
+            }
+            if(st.size()==0){
+                ans[i]=i+1;
+            }
+            else{
+                ans[i]=i-st.peek();
+            }
+            st.push(i);
+        }
+        return ans;
+    }
+
+    public static void main(String[] args) {
+        Scanner scn=new Scanner(System.in);
+        int n=scn.nextInt();
+        int[] arr=new int[n];
+        for(int i=0;i<n;i++){
+            arr[i]=scn.nextInt();
+        }
+        Stack<Integer> st=new Stack<>();
+
+        int[] sp=stockSpan(st,arr);
+        for(int i=0;i<sp.length;i++){
+            System.out.print(sp[i]+" ");
+        }
+    }
 }
-
-
 
 
 
