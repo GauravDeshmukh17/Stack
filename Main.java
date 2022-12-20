@@ -187,7 +187,9 @@ public class Main{
 
 //-----------------------------------------------------------------------------------------------------------
 
-import java.util.Scanner;
+// NEXT GREATER TO LEFT
+
+/*import java.util.Scanner;
 import java.util.Stack;
 
 public class Main{
@@ -227,7 +229,53 @@ public class Main{
             System.out.print(ng[i]+" ");
         }
     }
+}*/
+
+//-------------------------------------------------------------------------------------------------------
+
+// NEXT SMALLER TO RIGHT
+
+import java.util.*;
+
+public class Main{
+
+    public static int[] nextSmallerToRight(Stack<Integer> st,int[] arr){
+        int n= arr.length;
+        int[] ans=new int[n];
+        ans[n-1]=-1;
+        st.push(arr[n-1]);
+
+        for(int i=n-2;i>=0;i--){
+            while(st.size()!=0 && arr[i]<st.peek()){
+                st.pop();
+            }
+            if(st.size()==0){
+                ans[i]=-1;
+            }
+            else{
+                ans[i]=st.peek();
+            }
+            st.push(arr[i]);
+        }
+        return ans;
+    }
+
+    public static void main(String[] args) {
+        Scanner scn=new Scanner(System.in);
+        int n=scn.nextInt();
+        int[] arr=new int[n];
+        for(int i=0;i<n;i++){
+            arr[i]=scn.nextInt();
+        }
+        Stack<Integer> st=new Stack<>();
+
+        int[] ns=nextSmallerToRight(st,arr);
+        for(int i=0;i<ns.length;i++){
+            System.out.print(ns[i]+" ");
+        }
+    }
 }
+
 
 
 
