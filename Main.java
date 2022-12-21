@@ -280,7 +280,7 @@ public class Main{
 
 // STOCK SPAN
 
-import java.util.*;
+/*import java.util.*;
 
 public class Main{
 
@@ -319,7 +319,118 @@ public class Main{
             System.out.print(sp[i]+" ");
         }
     }
+}*/
+
+//------------------------------------------------------------------------------------------------------
+
+// MAXIMUM AREA OF HISTOGRAM
+
+import java.util.*;
+
+public class Main{
+
+    public static int[] nextSmallerToLeft(Stack<Integer> st,int[] arr){
+        int n=arr.length;
+        int[] ans=new int[n];
+        ans[0]=-1;
+        st.push(0);
+        for(int i=1;i<n;i++){
+            while(st.size()!=0 && arr[i]<=arr[st.peek()]){
+                st.pop();
+            }
+            if(st.size()==0){
+                ans[i]=-1;
+            }
+            else{
+                ans[i]=st.peek();
+            }
+            st.push(i);
+        }
+        return ans;
+    }
+
+    public static int[] nextSmallerToRight(Stack<Integer> st,int[] arr){
+        int n=arr.length;
+        int[] ans=new int[n];
+        ans[n-1]=-1;
+        st.push(n-1);
+
+        for(int i=n-2;i>=0;i--){
+            while(st.size()!=0 && arr[i]<=arr[st.peek()]){
+                st.pop();
+            }
+            if(st.size()==0){
+                ans[i]=-1;
+            }
+            else{
+                ans[i]=st.peek();
+            }
+            st.push(i);
+        }
+        return ans;
+    }
+
+    public static int histogramArea(Stack<Integer> st1,Stack<Integer> st2,int[] arr){
+        int i=0;
+        int[] ansL=nextSmallerToLeft(st1,arr);
+//        for(int j=0;j<ansL.length;j++){
+//            System.out.print(ansL[j]+" ");
+//        }
+//        System.out.println();
+        int[] ansR=nextSmallerToRight(st2,arr);
+//        for(int j=0;j<ansR.length;j++){
+//            System.out.print(ansR[j]+" ");
+//        }
+//        System.out.println();
+        int maxArea=Integer.MIN_VALUE;
+        while(i<arr.length){
+            if(ansL[i]==-1 && ansR[i]==-1){
+                int wdt=ansL.length;
+                int pArea=wdt*arr[i];
+                if(maxArea<pArea){
+                    maxArea=pArea;
+                }
+            }
+            else if(ansL[i]==-1){
+                int pArea=arr[i]*ansR[i];
+                if(maxArea<pArea){
+                    maxArea=pArea;
+                }
+            }
+            else if(ansR[i]==-1){
+                int wdt= ansL.length-1-ansL[i];
+                int pArea=wdt*arr[i];
+                if(maxArea<pArea){
+                    maxArea=pArea;
+                }
+            }
+            else{
+                int wdt=ansR[i]-ansL[i]-1;
+                int pArea=wdt*arr[i];
+                if(maxArea<pArea){
+                    maxArea=pArea;
+                }
+            }
+            i++;
+        }
+        return maxArea;
+    }
+
+    public static void main(String[] args) {
+        Scanner scn=new Scanner(System.in);
+        int n=scn.nextInt();
+        int[] arr=new int[n];
+        for(int i=0;i<n;i++){
+            arr[i]=scn.nextInt();
+        }
+        Stack<Integer> st1=new Stack<>();
+        Stack<Integer> st2=new Stack<>();
+
+        int h=histogramArea(st1,st2,arr);
+        System.out.println(h);
+    }
 }
+
 
 
 
